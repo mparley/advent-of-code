@@ -1,3 +1,7 @@
+// This is the version I solved the problems with
+// After I realized steps I took during part 1 in preparation for a more complex
+// part 2 that never happened, I made a more optimized version in main_alt.cpp
+// where I don't bother store the data before handling it.
 #include <iostream>
 #include <sstream>
 #include <unordered_map>
@@ -18,6 +22,8 @@ bool isValidPart1(PassEntry p) {
   unordered_map<char, int> char_counts;
   int min = p.first, max = p.second;
 
+  // Lmao I think I thought I might have had to track multiple chars in part 2
+  // Should have just used a single int to count occurances. See main_alt.cpp
   for (char c : p.password) {
     char_counts[c]++;
   }
