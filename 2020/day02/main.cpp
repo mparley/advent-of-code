@@ -31,9 +31,8 @@ bool isValidPart1(PassEntry p) {
   return char_counts[p.req] <= max && char_counts[p.req] >= min;
 }
 
-// This is just xor
 bool isValidPart2(PassEntry p) {
-  return !(p.password[p.first-1] == p.req) != !(p.password[p.second-1] == p.req);
+  return (p.password[p.first-1] == p.req) != (p.password[p.second-1] == p.req);
 }
 
 // This really isn't needed - you can handle all the logic while reading

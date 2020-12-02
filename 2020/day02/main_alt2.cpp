@@ -21,9 +21,8 @@ bool isValidPart1(string password, char req, int first, int second) {
   return count <= max && count >= min;
 }
 
-// This is just xor
 bool isValidPart2(string password, char req, int first, int second) {
-  return !(password[first-1] == req) != !(password[second-1] == req);
+  return (password[first-1] == req) != (password[second-1] == req);
 }
 
 // This reads the file and counts each part's interpretation of valid passes
