@@ -6,7 +6,7 @@
 using namespace std;
 
 // Counts the trees on the path, wraps the x value
-int treesInPath(vector<string> lines, int dx, int dy) {
+int treesInPath(const vector<string> &lines, int dx, int dy) {
   int x = 0, y = 0;
   int tree_count = 0;
   int len = lines[0].length();
@@ -27,7 +27,7 @@ int treesInPath(vector<string> lines, int dx, int dy) {
 // you wanna check
 int main(int argc, char* argv[]) {
   if (argc < 2)
-    return -1;
+    return 1;
 
   ifstream infile(argv[1]);
   string line;
