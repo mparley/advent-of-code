@@ -1,4 +1,4 @@
-// When I wrote this and solved the problem I missed the ABSOLUTELY
+// When I solved the problem initially, I missed the ABSOLUTELY
 // OBVIOUS fact that the seat inputs were LITERALLY JUST BINARY
 // I'm actually really embarassed I somehow missed this
 // This is the better solution
@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// Goes through the input and converts it to an int via bitshifting
 int getSeat(const string& line) {
   int id = 0;
 
