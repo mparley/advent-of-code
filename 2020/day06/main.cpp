@@ -5,14 +5,14 @@
 
 using namespace std;
 
-// Filename is passed in as first argument;
+// Filename is passed in as first argument
 int main(int argc, char* argv[]) {
   if (argc < 2)
     return EXIT_FAILURE;
 
   ifstream infile(argv[1]);
   string line;
-  bitset<26> bs1, bs2, curr;
+  bitset<26> bs1, bs2, curr; // Using bitsets for alphabet
   int count1 = 0, count2 = 0;
 
   bs2.set();
@@ -24,22 +24,22 @@ int main(int argc, char* argv[]) {
     getline(infile, line);
     curr.reset();
 
-    for (char c : line)
-      curr.set(c - 'a', 1);
-
-    bs1 |= curr;
-
     // On empty line or end of file, update counts
-    // reset bits. Needs to skip part 2 &
+    // reset bits.
     if (line.empty() || !infile.good()) {
       count1 += bs1.count();
       count2 += bs2.count();
       bs1.reset();
       bs2.set();
-      continue;
-    }
 
-    bs2 &= curr;
+    // Read characters, and bitwise operations
+    } else {
+      for (char c : line)
+        curr.set(c - 'a', 1);
+
+      bs1 |= curr;
+      bs2 &= curr;
+    }
   }
 
   printf("%d %d\n", count1, count2);
