@@ -29,7 +29,6 @@ int main(int argc, char* argv[]) {
 
     // On empty line or end of file, update counts
     // reset bits. Needs to skip part 2 &
-    // asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
     if (line.empty() || !infile.good()) {
       count1 += bs1.count();
       count2 += bs2.count();
