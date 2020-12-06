@@ -22,6 +22,8 @@ int main(int argc, char* argv[]) {
   // Part 2 bitset needs to AND with line entries
   while (infile.good()) {
     getline(infile, line);
+    curr.reset();
+
     for (char c : line)
       curr.set(c - 'a', 1);
 
@@ -38,7 +40,6 @@ int main(int argc, char* argv[]) {
     }
 
     bs2 &= curr;
-    curr.reset();
   }
 
   printf("%d %d\n", count1, count2);
