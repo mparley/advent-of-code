@@ -11,7 +11,7 @@ INC := -I .
 $(TARGET): $(OBJECTS)
 	$(CC) $^ -o $(TARGET)
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p build
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
