@@ -18,26 +18,22 @@ int weaknessFromRange(int low, int high, const vector<int>& data) {
 }
 
 // Finds the contiguous range of data entries that sum up to the target
-tuple<int,int> findSumRange(int target, const vector<int>& data) {
-    int low = 0, high = 1;
-    int sum = data[low] + data[high];
+// improved from last version I had by shamelessly taking inspiration from others
+tuple<int,int> findRange(int target, const vector<int>& data) {
+    int low = 0, sum = data[low];
 
-    while (high < data.size()) {
+    // Loop grows range on high end and adds to sum
+    for (int high = 1; high < data.size(); high++) {
+        sum += data[high];
 
-        // While the sum is less than target we expand range
-        while (sum < target) {
-            high++;
-            if (high >= data.size()) break; // Prevents segfault
-
-            sum += data[high];
-            if (sum == target)
-                return {low, high};
+        // If sum is greater than target, shrink range from bottom until it isn't
+        while (sum > target) {
+            sum -= data[low];
+            low++;
         }
 
-        // If we passed the target increase low, reset range and sum
-        low++;
-        high = low + 1;
-        sum = data[low] + data[high];
+        if (sum == target)
+            return  {low, high};
     }
 
     return {-1, -1};
@@ -45,25 +41,20 @@ tuple<int,int> findSumRange(int target, const vector<int>& data) {
 
 // Given the preamble checks that entry is a sum of two of it's numbers
 bool isSumOf(int num, const set<int>& list) {
-    auto high = list.lower_bound(num); // starts at target (or just after)
+    auto high = list.lower_bound(num);
     auto low =  list.begin();
-    bool found = false;
 
-    // High and low converge
-    // if low is the difference of num and high, num is valid
-    // if low is greater than the difference, we move high back
-    // if low is less than the difference, we move high forward
+    // High and low converge while checking low against num minus high
     while (*high > *low) {
-        if (*low == num - *high) {
-            found = true;
-            break;
-        } else if (*low > num - *high)
+        if (*low == num - *high)
+            return true;
+        else if (*low > num - *high)
             high--;
         else
             low++;
     }
 
-    return found;
+    return false;
 }
 
 // Filname is passed as first argument, preamble size is second argument
@@ -75,7 +66,6 @@ int main(int argc, char *argv[]) {
     vector<int> data;
     set<int> preamble;
     int entry, rule_breaker, preamble_size = stoi(argv[2]);
-    bool found_rule_break = false;
 
     // Read input while checking for the invalid entry
     while (infile >> entry) {
@@ -88,19 +78,17 @@ int main(int argc, char *argv[]) {
             continue;
 
         // Check for rule break. If not found remove first entry from preamble
-        if (!found_rule_break) {
-            if (!isSumOf(dataq.back(), preamble)) {
-                rule_breaker = dataq.back();
-                cout << dataq.back() << " breaks rule\n";
-                found_rule_break = true;
-            }
-
-            preamble.erase(dataq.front());
-            dataq.pop();
+        if (!isSumOf(dataq.back(), preamble)) {
+            rule_breaker = dataq.back();
+            cout << dataq.back() << " breaks rule\n";
+            break;
         }
+
+        preamble.erase(dataq.front());
+        dataq.pop();
     }
 
-    auto [low_i, high_i] = findSumRange(rule_breaker, data);
+    auto [low_i, high_i] = findRange(rule_breaker, data);
     if (low_i != -1)
         cout << weaknessFromRange(low_i, high_i, data) << "\n";
     else
