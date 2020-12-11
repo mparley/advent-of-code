@@ -48,6 +48,16 @@ bool lookDir(int dx, int dy, int x, int y, const vector<vector<char>>& seats) {
     return false;
 }
 
+// Helper for part 1 making sure checked x, y are in bounds
+bool lookAt(int x, int y, const vector<vector<char>>& seats) {
+    if (inBounds(x, 0, seats[0].size()-1)
+        && inBounds(y, 0, seats.size()-1))
+    {
+        return seats[y][x] == '#';
+    } else
+        return false;
+}
+
 // Part 2 check for seats in line of sight
 int visible(int x, int y, const vector<vector<char>>& seats) {
     int count = 0;
@@ -65,20 +75,14 @@ int visible(int x, int y, const vector<vector<char>>& seats) {
 // Part 1 check of each immediately adjacent seat
 int adjacent(int x, int y, const vector<vector<char>>& seats) {
     int count = 0;
-
-    if (x > 0) {
-        if (seats[y][x-1] == '#') count++; // left
-        if (y > 0 && seats[y-1][x-1] == '#') count++; // upper left
-        if (y < seats.size()-1 && seats[y+1][x-1] == '#') count++; // lower left
-    }
-    if (x < seats[0].size()-1) {
-        if (seats[y][x+1] == '#') count++; // right
-        if (y < seats.size()-1 && seats[y+1][x+1] == '#') count++; // lower right
-        if (y > 0 && seats[y-1][x+1] == '#') count++; // upper right
-    }
-    if (y > 0 && seats[y-1][x] == '#') count++; // up
-    if (y < seats.size()-1 && seats[y+1][x] == '#') count++; // down
-
+    count += lookAt(x+1, y, seats); // right
+    count += lookAt(x-1, y, seats); // left
+    count += lookAt(x, y+1, seats); // down
+    count += lookAt(x, y-1, seats); // up
+    count += lookAt(x+1, y+1, seats); // down right
+    count += lookAt(x-1, y-1, seats); // up left
+    count += lookAt(x+1, y-1, seats); // up right
+    count += lookAt(x-1, y+1, seats); // down left
     return count;
 }
 
