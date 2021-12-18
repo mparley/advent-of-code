@@ -36,3 +36,4 @@ big_input
 big*.txt
 .ccls
 .vscode
+.trash
