@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <bitset>
 
 using namespace std;
 
@@ -14,10 +13,10 @@ struct InfiniteImage {
   bool inf_bit;
 
   InfiniteImage(vector<vector<bool>> v) 
-    : actual(v) {}
+    : actual(v), inf_bit(0) {}
 
   InfiniteImage(int width, int height)
-    : actual(vector<vector<bool>>( height, vector<bool>(width) )) {}
+    : actual(vector<vector<bool>>( height, vector<bool>(width) )), inf_bit(0) {}
 
   int height() const { return actual.size(); }
   int width() const { return actual[0].size(); }
@@ -90,8 +89,10 @@ int main(int argc, char** argv) {
       row.push_back(GetBool(c));
     input_image.push_back(row);
   }
+  infile.close();
 
   InfiniteImage image(input_image);
+  cout << image.count() << "\n";
 
   for (int i = 0; i < iterations; i++)
     image = Enhance(algo, image);
