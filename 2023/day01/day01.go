@@ -35,10 +35,10 @@ func IsSpelledOut(s string) int {
 
 	if s[:4] == "nine" {
 		return 9
-	} 
+	}
 
 	if s[:4] == "five" {
-	    return 5
+		return 5
 	}
 
 	if len(s) < 5 {
@@ -50,16 +50,15 @@ func IsSpelledOut(s string) int {
 	}
 
 	if s[:5] == "seven" {
-	    return 7
+		return 7
 	}
 
 	if s[:5] == "eight" {
-	    return 8
+		return 8
 	}
 
 	return 0
 }
-
 
 func main() {
 	data, err := os.ReadFile(os.Args[1])
@@ -82,10 +81,10 @@ func main() {
 			}
 		}
 
-		for i := len(line)-1; i >= 0; i-- {
+		for i := len(line) - 1; i >= 0; i-- {
 			if unicode.IsDigit(rune(line[i])) {
 				//fmt.Println("Last:",int(line[i]-'0'))
-				val1 += int(line[i]-'0')
+				val1 += int(line[i] - '0')
 				break
 			}
 		}
@@ -98,23 +97,23 @@ func main() {
 		fmt.Println(line)
 		for i := 0; i < len(line); i++ {
 			if unicode.IsDigit(rune(line[i])) {
-				fmt.Println("First:",int(line[i]-'0'))
+				fmt.Println("First:", int(line[i]-'0'))
 				val2 += int(line[i]-'0') * 10
 				break
 			} else if sp := IsSpelledOut(line[i:]); sp > 0 {
-				fmt.Println("First:",sp)
+				fmt.Println("First:", sp)
 				val2 += sp * 10
 				break
 			}
 		}
 
-		for i := len(line)-1; i >= 0; i-- {
+		for i := len(line) - 1; i >= 0; i-- {
 			if unicode.IsDigit(rune(line[i])) {
-				fmt.Println("Last:",int(line[i]-'0'))
-				val2 += int(line[i]-'0')
+				fmt.Println("Last:", int(line[i]-'0'))
+				val2 += int(line[i] - '0')
 				break
 			} else if sp := IsSpelledOut(line[i:]); sp > 0 {
-				fmt.Println("Last:",sp)
+				fmt.Println("Last:", sp)
 				val2 += sp
 				break
 			}
@@ -123,6 +122,6 @@ func main() {
 		sum2 += val2
 	}
 
-	fmt.Println("Part 1:",sum1)
-	fmt.Println("Part 2:",sum2)
+	fmt.Println("Part 1:", sum1)
+	fmt.Println("Part 2:", sum2)
 }
