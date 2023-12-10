@@ -176,40 +176,34 @@ func printLoop(input []string, loop map[pos]struct{}) {
 
 func inner(loop map[pos]struct{}, input [][]rune) int {
 	inner := 0
-	for y, in := range input {
-		for x := range in {
+	for y, line := range input {
+		intersects := 0
+		opening := '.'
+		for x := range line {
 			if _, ok := loop[pos{x, y}]; ok {
-				continue
-			}
-
-			intersects := 0
-			opening := '.'
-			for i := x + 1; i < len(in); i++ {
-				if _, ok := loop[pos{i, y}]; ok {
-					ch := input[y][i]
-					switch ch {
-					case '|':
-						intersects++
-					case 'F', 'L':
-						if opening == '.' {
-							opening = ch
-						}
-					case 'J':
-						if opening == 'F' {
-							intersects++
-						}
-						opening = '.'
-					case '7':
-						if opening == 'L' {
-							intersects++
-						}
-						opening = '.'
+				ch := input[y][x]
+				switch ch {
+				case '|':
+					intersects++
+				case 'F', 'L':
+					if opening == '.' {
+						opening = ch
 					}
+				case 'J':
+					if opening == 'F' {
+						intersects++
+					}
+					opening = '.'
+				case '7':
+					if opening == 'L' {
+						intersects++
+					}
+					opening = '.'
 				}
-			}
-
-			if intersects%2 != 0 {
-				inner++
+			} else {
+				if intersects%2 != 0 {
+					inner++
+				}
 			}
 		}
 	}
